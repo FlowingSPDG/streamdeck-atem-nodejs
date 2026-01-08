@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>ATEM Cut Settings</title>
+    <meta charset="utf-8" />
+    <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+</head>
+
+<body>
+    <!--
+        Learn more about property inspector components at https://sdpi-components.dev/docs/components
+    -->
+    
+    <!-- ATEM Connection Settings -->
+    <sdpi-item label="ATEM IP Address">
+        <sdpi-textfield 
+            setting="atemIp" 
+            placeholder="192.168.10.240" 
+            default="192.168.10.240">
+        </sdpi-textfield>
+    </sdpi-item>
+
+    <sdpi-item label="Mix Effect">
+        <sdpi-select setting="mixEffect" default="0">
+            <option value="0">ME 1</option>
+            <option value="1">ME 2</option>
+            <option value="2">ME 3</option>
+            <option value="3">ME 4</option>
+        </sdpi-select>
+    </sdpi-item>
+
+    <!-- Display Options -->
+    <sdpi-item label="Show Connection Status">
+        <sdpi-checkbox setting="showConnectionStatus" default="false"></sdpi-checkbox>
+    </sdpi-item>
+
+    <sdpi-item label="Show Error on Title">
+        <sdpi-checkbox setting="showErrorOnTitle" default="false"></sdpi-checkbox>
+    </sdpi-item>
+</body>
+
+</html>
+ 
