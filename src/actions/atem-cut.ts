@@ -1,4 +1,4 @@
-import { action, KeyDownEvent, SingletonAction, WillAppearEvent } from "@elgato/streamdeck";
+import { action, KeyDownEvent, SingletonAction, WillAppearEvent, SendToPluginEvent, PropertyInspectorDidAppearEvent } from "@elgato/streamdeck";
 import { atemConnectionManager } from "../atem-connection-manager-singleton";
 import streamDeck from "@elgato/streamdeck";
 
@@ -70,6 +70,38 @@ export class AtemCut extends SingletonAction<AtemCutSettings> {
 					await ev.action.setTitle("");
 				}, 2000);
 			}
+		}
+	}
+
+	/**
+	 * Called when the Property Inspector appears.
+	 */
+	override async onPropertyInspectorDidAppear(ev: PropertyInspectorDidAppearEvent<AtemCutSettings>): Promise<void> {
+		const connectedIPs = atemConnectionManager.getConnectedIPs();
+		streamDeck.logger.info(`PropertyInspector opened. Connected ATEMs: ${connectedIPs.length}`);
+	}
+
+	/**
+	 * Called when a message is sent from the Property Inspector.
+	 * Handles data-source requests from SDPI-Components.
+	 */
+	override async onSendToPlugin(ev: SendToPluginEvent<any, AtemCutSettings>): Promise<void> {
+		const { payload } = ev;
+
+		// Handle data-source request for connected ATEMs (SDPI-Components sends payload.event)
+		if (payload && payload.event === "getConnectedATEMs") {
+			const connectedIPs = atemConnectionManager.getConnectedIPs();
+			streamDeck.logger.info(`Data-source request: Sending ${connectedIPs.length} connected ATEM(s)`);
+
+			// Send connected IPs back to Property Inspector in SDPI-Components data-source format
+			// Reference: https://sdpi-components.dev/docs/helpers/data-source
+			await streamDeck.ui.sendToPropertyInspector({
+				event: "getConnectedATEMs",
+				items: connectedIPs.map(ip => ({
+					label: ip,
+					value: ip
+				}))
+			});
 		}
 	}
 

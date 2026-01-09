@@ -13,11 +13,19 @@
     -->
     
     <!-- ATEM Connection Settings -->
-    <sdpi-item label="ATEM IP Address">
+    <sdpi-item label="Connected ATEMs">
+        <sdpi-select 
+            setting="atemIp" 
+            datasource="getConnectedATEMs"
+            loading="Loading connected ATEMs..."
+            placeholder="Select or enter manually below">
+        </sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item label="Or Enter IP Manually">
         <sdpi-textfield 
             setting="atemIp" 
-            placeholder="192.168.10.240" 
-            default="192.168.10.240">
+            placeholder="192.168.10.240">
         </sdpi-textfield>
     </sdpi-item>
 

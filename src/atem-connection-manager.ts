@@ -89,6 +89,7 @@ export class AtemConnectionManager extends EventEmitter {
 	 */
 	private async connectWithRetry(ip: string, connection: AtemConnection): Promise<void> {
 		const atem = connection.atem;
+		console.log(`[DEBUG ConnectionManager] Starting connection to ${ip}`);
 
 		while (connection.retryCount < this.maxRetries) {
 			try {
@@ -103,19 +104,23 @@ export class AtemConnectionManager extends EventEmitter {
 						connection.isConnected = true;
 						connection.retryCount = 0;
 						connection.lastRetryTime = Date.now();
+						console.log(`[DEBUG ConnectionManager] Connected to ${ip}, isConnected: ${connection.isConnected}`);
 						this.emit("connected", ip);
 						resolve();
 					});
 
 					atem.once("error", (error: string) => {
 						clearTimeout(timeout);
+						console.log(`[DEBUG ConnectionManager] Connection error for ${ip}: ${error}`);
 						reject(new Error(error));
 					});
 
+					console.log(`[DEBUG ConnectionManager] Calling atem.connect(${ip})`);
 					atem.connect(ip);
 				});
 
 				await connectPromise;
+				console.log(`[DEBUG ConnectionManager] Connection successful for ${ip}`);
 				return; // Connection successful
 			} catch (error) {
 				connection.retryCount++;
@@ -243,5 +248,22 @@ export class AtemConnectionManager extends EventEmitter {
 	isConnected(ip: string): boolean {
 		const connection = this.connections.get(ip);
 		return connection?.isConnected ?? false;
+	}
+
+	/**
+	 * Gets a list of all connected ATEM IP addresses.
+	 * @returns Array of connected ATEM IP addresses
+	 */
+	getConnectedIPs(): string[] {
+		const connectedIPs: string[] = [];
+		console.log(`[DEBUG ConnectionManager] Getting connected IPs. Total connections in map: ${this.connections.size}`);
+		this.connections.forEach((connection, ip) => {
+			console.log(`[DEBUG ConnectionManager] IP: ${ip}, isConnected: ${connection.isConnected}`);
+			if (connection.isConnected) {
+				connectedIPs.push(ip);
+			}
+		});
+		console.log(`[DEBUG ConnectionManager] Returning ${connectedIPs.length} connected IPs: ${JSON.stringify(connectedIPs)}`);
+		return connectedIPs;
 	}
 }
