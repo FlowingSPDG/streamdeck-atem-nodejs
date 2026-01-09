@@ -55,8 +55,6 @@ export class AtemCut extends SingletonAction<AtemCutSettings> {
 			streamDeck.logger.info(`Executing Cut on ME ${mixEffect}...`);
 			await atem.cut(mixEffect);
 
-			// Show success
-			await ev.action.showOk();
 			streamDeck.logger.info(`Cut executed successfully on ME ${mixEffect}`);
 		} catch (error) {
 			// Show error

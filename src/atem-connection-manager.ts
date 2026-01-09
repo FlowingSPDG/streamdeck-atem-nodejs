@@ -13,11 +13,20 @@ interface AtemConnection {
 }
 
 /**
+ * State change listener information
+ */
+interface StateChangeListener {
+	ip: string;
+	callback: (ip: string, state: any) => void;
+}
+
+/**
  * ATEM Connection Manager
  * Provides connection pooling for ATEMs with the same IP address and automatic retry functionality.
  */
 export class AtemConnectionManager extends EventEmitter {
 	private connections: Map<string, AtemConnection> = new Map();
+	private stateListeners: Map<string, StateChangeListener[]> = new Map();
 	private readonly maxRetries: number = 10;
 	private readonly retryDelay: number = 5000; // 5 seconds
 	private readonly connectionTimeout: number = 10000; // 10 seconds
@@ -178,6 +187,23 @@ export class AtemConnectionManager extends EventEmitter {
 				this.attemptReconnect(ip, connection);
 			}
 		});
+
+		// Listen for state changes
+		atem.on("stateChanged", (state: any, pathToChange: string[]) => {
+			this.emit("stateChanged", ip, state, pathToChange);
+			
+			// Notify registered listeners
+			const listeners = this.stateListeners.get(ip);
+			if (listeners) {
+				listeners.forEach(listener => {
+					try {
+						listener.callback(ip, state);
+					} catch (error) {
+						console.error(`[ConnectionManager] Error in state listener for ${ip}:`, error);
+					}
+				});
+			}
+		});
 	}
 
 	/**
@@ -287,5 +313,94 @@ export class AtemConnectionManager extends EventEmitter {
 		const mixEffectCount = connection.atem.state.info.capabilities?.mixEffects ?? 0;
 		console.log(`[DEBUG ConnectionManager] ATEM ${ip} has ${mixEffectCount} Mix Effect(s)`);
 		return mixEffectCount;
+	}
+
+	/**
+	 * Gets the current state of an ATEM.
+	 * @param ip ATEM IP address
+	 * @returns ATEM state, or null if not connected
+	 */
+	getState(ip: string): any | null {
+		const connection = this.connections.get(ip);
+		if (!connection || !connection.isConnected || !connection.atem.state) {
+			return null;
+		}
+		return connection.atem.state;
+	}
+
+	/**
+	 * Registers a state change listener for a specific ATEM.
+	 * @param listenerId Unique identifier for the listener
+	 * @param ip ATEM IP address
+	 * @param callback Callback function to be called when state changes
+	 */
+	addStateListener(listenerId: string, ip: string, callback: (ip: string, state: any) => void): void {
+		if (!this.stateListeners.has(ip)) {
+			this.stateListeners.set(ip, []);
+		}
+		
+		const listeners = this.stateListeners.get(ip)!;
+		
+		// Remove existing listener with same ID if exists
+		const existingIndex = listeners.findIndex(l => l.callback === callback);
+		if (existingIndex !== -1) {
+			listeners.splice(existingIndex, 1);
+		}
+		
+		listeners.push({ ip, callback });
+		console.log(`[DEBUG ConnectionManager] Added state listener for ${ip}. Total listeners: ${listeners.length}`);
+	}
+
+	/**
+	 * Removes a state change listener.
+	 * @param listenerId Unique identifier for the listener
+	 * @param ip ATEM IP address
+	 */
+	removeStateListener(listenerId: string, ip: string, callback: (ip: string, state: any) => void): void {
+		const listeners = this.stateListeners.get(ip);
+		if (!listeners) {
+			return;
+		}
+
+		const index = listeners.findIndex(l => l.callback === callback);
+		if (index !== -1) {
+			listeners.splice(index, 1);
+			console.log(`[DEBUG ConnectionManager] Removed state listener for ${ip}. Remaining listeners: ${listeners.length}`);
+		}
+
+		// Clean up empty listener arrays
+		if (listeners.length === 0) {
+			this.stateListeners.delete(ip);
+		}
+	}
+
+	/**
+	 * Gets available input sources for a connected ATEM.
+	 * @param ip ATEM IP address
+	 * @returns Array of input sources
+	 */
+	getInputSources(ip: string): Array<{ id: number; name: string }> {
+		const connection = this.connections.get(ip);
+		if (!connection || !connection.isConnected || !connection.atem.state) {
+			return [];
+		}
+
+		const inputs = connection.atem.state.inputs;
+		const sources: Array<{ id: number; name: string }> = [];
+
+		for (const [key, value] of Object.entries(inputs)) {
+			const inputId = parseInt(key, 10);
+			if (!isNaN(inputId) && value && typeof value === 'object' && 'longName' in value) {
+				sources.push({
+					id: inputId,
+					name: (value as any).longName || (value as any).shortName || `Input ${inputId}`
+				});
+			}
+		}
+
+		// Sort by input ID
+		sources.sort((a, b) => a.id - b.id);
+
+		return sources;
 	}
 }

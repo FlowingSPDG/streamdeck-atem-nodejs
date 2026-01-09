@@ -18,6 +18,54 @@
 					"TitleAlignment": "bottom"
 				}
 			]
+		},
+		{
+			"Name": "Auto Transition",
+			"UUID": "dev.flowingspdg.atemnodejs.auto",
+			"Icon": "imgs/actions/auto/icon",
+			"Tooltip": "Execute Auto Transition on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-auto-transition.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/auto/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Set Program Input",
+			"UUID": "dev.flowingspdg.atemnodejs.setprograminput",
+			"Icon": "imgs/actions/program/icon",
+			"Tooltip": "Set Program input source on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-set-program-input.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/program/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Set Preview Input",
+			"UUID": "dev.flowingspdg.atemnodejs.setpreviewinput",
+			"Icon": "imgs/actions/preview/icon",
+			"Tooltip": "Set Preview input source on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-set-preview-input.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/preview/key",
+					"TitleAlignment": "bottom"
+				}
+			]
 		}
 	],
 	"Category": "Blackmagic Design ATEM(NodeJS)",
