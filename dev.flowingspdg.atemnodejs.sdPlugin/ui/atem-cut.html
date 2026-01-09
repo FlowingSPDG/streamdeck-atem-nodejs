@@ -30,11 +30,12 @@
     </sdpi-item>
 
     <sdpi-item label="Mix Effect">
-        <sdpi-select setting="mixEffect" default="0">
+        <sdpi-select 
+            setting="mixEffect" 
+            default="0"
+            datasource="getMixEffects"
+            loading="Loading Mix Effects...">
             <option value="0">ME 1</option>
-            <option value="1">ME 2</option>
-            <option value="2">ME 3</option>
-            <option value="3">ME 4</option>
         </sdpi-select>
     </sdpi-item>
 

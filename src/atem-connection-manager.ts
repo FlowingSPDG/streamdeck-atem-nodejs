@@ -266,4 +266,26 @@ export class AtemConnectionManager extends EventEmitter {
 		console.log(`[DEBUG ConnectionManager] Returning ${connectedIPs.length} connected IPs: ${JSON.stringify(connectedIPs)}`);
 		return connectedIPs;
 	}
+
+	/**
+	 * Gets the number of Mix Effects for a connected ATEM.
+	 * @param ip ATEM IP address
+	 * @returns Number of Mix Effects, or 0 if not connected or unavailable
+	 */
+	getMixEffectCount(ip: string): number {
+		const connection = this.connections.get(ip);
+		if (!connection || !connection.isConnected) {
+			console.log(`[DEBUG ConnectionManager] ATEM ${ip} is not connected`);
+			return 0;
+		}
+
+		if (!connection.atem.state) {
+			console.log(`[DEBUG ConnectionManager] ATEM ${ip} state is not available`);
+			return 0;
+		}
+
+		const mixEffectCount = connection.atem.state.info.capabilities?.mixEffects ?? 0;
+		console.log(`[DEBUG ConnectionManager] ATEM ${ip} has ${mixEffectCount} Mix Effect(s)`);
+		return mixEffectCount;
+	}
 }

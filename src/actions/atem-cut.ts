@@ -88,7 +88,7 @@ export class AtemCut extends SingletonAction<AtemCutSettings> {
 	override async onSendToPlugin(ev: SendToPluginEvent<any, AtemCutSettings>): Promise<void> {
 		const { payload } = ev;
 
-		// Handle data-source request for connected ATEMs (SDPI-Components sends payload.event)
+		// Handle data-source request for connected ATEMs
 		if (payload && payload.event === "getConnectedATEMs") {
 			const connectedIPs = atemConnectionManager.getConnectedIPs();
 			streamDeck.logger.info(`Data-source request: Sending ${connectedIPs.length} connected ATEM(s)`);
@@ -101,6 +101,43 @@ export class AtemCut extends SingletonAction<AtemCutSettings> {
 					label: ip,
 					value: ip
 				}))
+			});
+		}
+
+		// Handle data-source request for Mix Effects
+		if (payload && payload.event === "getMixEffects") {
+			const settings = await ev.action.getSettings();
+			const atemIp = settings.atemIp;
+
+			if (!atemIp) {
+				streamDeck.logger.info(`Data-source request (getMixEffects): No ATEM IP configured`);
+				await streamDeck.ui.sendToPropertyInspector({
+					event: "getMixEffects",
+					items: [{ label: "ME 1", value: "0" }]
+				});
+				return;
+			}
+
+			const mixEffectCount = atemConnectionManager.getMixEffectCount(atemIp);
+			streamDeck.logger.info(`Data-source request: ATEM ${atemIp} has ${mixEffectCount} Mix Effect(s)`);
+
+			// Generate Mix Effect list based on count
+			const items = [];
+			if (mixEffectCount === 0) {
+				// Default to 1 ME if not connected or unavailable
+				items.push({ label: "ME 1", value: "0" });
+			} else {
+				for (let i = 0; i < mixEffectCount; i++) {
+					items.push({
+						label: `ME ${i + 1}`,
+						value: String(i)
+					});
+				}
+			}
+
+			await streamDeck.ui.sendToPropertyInspector({
+				event: "getMixEffects",
+				items
 			});
 		}
 	}
