@@ -1,0 +1,95 @@
+{
+	"Name": "Blackmagic Design ATEM(NodeJS)",
+	"Version": "0.1.0.0",
+	"Author": "Shugo Kawamura",
+	"Actions": [
+		{
+			"Name": "Cut",
+			"UUID": "dev.flowingspdg.atemnodejs.cut",
+			"Icon": "imgs/actions/cut/icon",
+			"Tooltip": "Execute Cut on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-cut.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/cut/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Auto Transition",
+			"UUID": "dev.flowingspdg.atemnodejs.auto",
+			"Icon": "imgs/actions/auto/icon",
+			"Tooltip": "Execute Auto Transition on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-auto-transition.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/auto/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Set Program Input",
+			"UUID": "dev.flowingspdg.atemnodejs.setprograminput",
+			"Icon": "imgs/actions/program/icon",
+			"Tooltip": "Set Program input source on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-set-program-input.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/program/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Set Preview Input",
+			"UUID": "dev.flowingspdg.atemnodejs.setpreviewinput",
+			"Icon": "imgs/actions/preview/icon",
+			"Tooltip": "Set Preview input source on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-set-preview-input.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/preview/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		}
+	],
+	"Category": "Blackmagic Design ATEM(NodeJS)",
+	"CategoryIcon": "imgs/plugin/category-icon",
+	"CodePath": "bin/plugin.js",
+	"Description": "Blackmagic Design ATEM Video Switcher plugin. Unofficial NodeJS",
+	"Icon": "imgs/plugin/marketplace",
+	"SDKVersion": 3,
+	"Software": {
+		"MinimumVersion": "6.9"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "dev.flowingspdg.atemnodejs"
+}
