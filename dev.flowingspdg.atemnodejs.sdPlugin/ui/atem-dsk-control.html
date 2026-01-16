@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>ATEM DSK Control Settings</title>
+    <meta charset="utf-8" />
+    <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+</head>
+
+<body>
+    <!--
+        Learn more about property inspector components at https://sdpi-components.dev/docs/components
+    -->
+    
+    <!-- ATEM Connection Settings -->
+    <sdpi-item label="Connected ATEMs">
+        <sdpi-select 
+            setting="atemIp" 
+            datasource="getConnectedATEMs"
+            loading="Loading connected ATEMs..."
+            placeholder="Select or enter manually below">
+        </sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item label="Or Enter IP Manually">
+        <sdpi-textfield 
+            setting="atemIp" 
+            placeholder="192.168.10.240">
+        </sdpi-textfield>
+    </sdpi-item>
+
+    <sdpi-item label="DSK Index">
+        <sdpi-textfield 
+            setting="dskIndex" 
+            type="number"
+            min="0"
+            max="3"
+            default="0"
+            placeholder="0">
+        </sdpi-textfield>
+    </sdpi-item>
+
+    <sdpi-item label="Action">
+        <sdpi-select 
+            setting="onAir" 
+            default="true">
+            <option value="true">On Air</option>
+            <option value="false">Off Air</option>
+        </sdpi-select>
+        <small>Select "On Air" or "Off Air" to set state, or leave empty to toggle</small>
+    </sdpi-item>
+</body>
+
+</html>

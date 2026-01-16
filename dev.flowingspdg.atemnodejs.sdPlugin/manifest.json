@@ -6,7 +6,7 @@
 		{
 			"Name": "Cut",
 			"UUID": "dev.flowingspdg.atemnodejs.cut",
-			"Icon": "imgs/actions/cut/icon",
+			"Icon": "imgs/actions/common/icon",
 			"Tooltip": "Execute Cut on ATEM switcher",
 			"PropertyInspectorPath": "ui/atem-cut.html",
 			"Controllers": [
@@ -14,7 +14,7 @@
 			],
 			"States": [
 				{
-					"Image": "imgs/actions/cut/key",
+					"Image": "imgs/actions/common/key",
 					"TitleAlignment": "bottom"
 				}
 			]
@@ -22,7 +22,7 @@
 		{
 			"Name": "Auto Transition",
 			"UUID": "dev.flowingspdg.atemnodejs.auto",
-			"Icon": "imgs/actions/auto/icon",
+			"Icon": "imgs/actions/common/icon",
 			"Tooltip": "Execute Auto Transition on ATEM switcher",
 			"PropertyInspectorPath": "ui/atem-auto-transition.html",
 			"Controllers": [
@@ -30,7 +30,7 @@
 			],
 			"States": [
 				{
-					"Image": "imgs/actions/auto/key",
+					"Image": "imgs/actions/common/key",
 					"TitleAlignment": "bottom"
 				}
 			]
@@ -38,7 +38,7 @@
 		{
 			"Name": "Set Program Input",
 			"UUID": "dev.flowingspdg.atemnodejs.setprograminput",
-			"Icon": "imgs/actions/program/icon",
+			"Icon": "imgs/actions/common/icon",
 			"Tooltip": "Set Program input source on ATEM switcher",
 			"PropertyInspectorPath": "ui/atem-set-program-input.html",
 			"Controllers": [
@@ -46,7 +46,7 @@
 			],
 			"States": [
 				{
-					"Image": "imgs/actions/program/key",
+					"Image": "imgs/actions/common/key",
 					"TitleAlignment": "bottom"
 				}
 			]
@@ -54,7 +54,7 @@
 		{
 			"Name": "Set Preview Input",
 			"UUID": "dev.flowingspdg.atemnodejs.setpreviewinput",
-			"Icon": "imgs/actions/preview/icon",
+			"Icon": "imgs/actions/common/icon",
 			"Tooltip": "Set Preview input source on ATEM switcher",
 			"PropertyInspectorPath": "ui/atem-set-preview-input.html",
 			"Controllers": [
@@ -62,7 +62,135 @@
 			],
 			"States": [
 				{
-					"Image": "imgs/actions/preview/key",
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Fade to Black",
+			"UUID": "dev.flowingspdg.atemnodejs.fadetoblack",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Execute Fade to Black on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-fade-to-black.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Macro Run",
+			"UUID": "dev.flowingspdg.atemnodejs.macrorun",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Execute Macro on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-macro-run.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Transition Style",
+			"UUID": "dev.flowingspdg.atemnodejs.transitionstyle",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Set transition style on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-transition-style.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Transition Rate",
+			"UUID": "dev.flowingspdg.atemnodejs.transitionrate",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Set transition rate on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-transition-rate.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "DSK Control",
+			"UUID": "dev.flowingspdg.atemnodejs.dskcontrol",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Control Downstream Keyer on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-dsk-control.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Aux Output",
+			"UUID": "dev.flowingspdg.atemnodejs.auxoutput",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Set Auxiliary output source on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-aux-output.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Media Player",
+			"UUID": "dev.flowingspdg.atemnodejs.mediaplayer",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Control Media Player on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-media-player.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
+					"TitleAlignment": "bottom"
+				}
+			]
+		},
+		{
+			"Name": "Recording & Streaming",
+			"UUID": "dev.flowingspdg.atemnodejs.recordingstreaming",
+			"Icon": "imgs/actions/common/icon",
+			"Tooltip": "Control Recording & Streaming on ATEM switcher",
+			"PropertyInspectorPath": "ui/atem-recording-streaming.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/common/key",
 					"TitleAlignment": "bottom"
 				}
 			]
