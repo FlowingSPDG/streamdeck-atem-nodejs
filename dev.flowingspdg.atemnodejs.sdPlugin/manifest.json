@@ -203,7 +203,7 @@
 	"Icon": "imgs/plugin/marketplace",
 	"SDKVersion": 3,
 	"Software": {
-		"MinimumVersion": "7.0"
+		"MinimumVersion": "7.1"
 	},
 	"OS": [
 		{
