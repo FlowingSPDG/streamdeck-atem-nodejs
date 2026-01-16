@@ -9,6 +9,8 @@ jobs:
   release:
     name: Build and Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout code
@@ -45,9 +47,9 @@ jobs:
         id: tag_version
         run: |
           TAG_NAME=${GITHUB_REF#refs/tags/}
-          # Validate version format (v0.0.0.0 or similar)
-          if [[ ! $TAG_NAME =~ ^v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Error: Tag format must be v*.*.*.* (e.g., v0.0.0.0)"
+          # Validate version format (v*.*.*.* or v*.*.*)
+          if [[ ! $TAG_NAME =~ ^v[0-9]+(\.[0-9]+)+$ ]]; then
+            echo "Error: Tag format must be v*.*.*.* or v*.*.* (e.g., v0.1.0.1 or v0.1.0)"
             exit 1
           fi
           echo "version=${TAG_NAME#v}" >> $GITHUB_OUTPUT
