@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>ATEM Transition Style Settings</title>
+    <meta charset="utf-8" />
+    <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+</head>
+
+<body>
+    <!--
+        Learn more about property inspector components at https://sdpi-components.dev/docs/components
+    -->
+    
+    <!-- ATEM Connection Settings -->
+    <sdpi-item label="Connected ATEMs">
+        <sdpi-select 
+            setting="atemIp" 
+            datasource="getConnectedATEMs"
+            loading="Loading connected ATEMs..."
+            placeholder="Select or enter manually below">
+        </sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item label="Or Enter IP Manually">
+        <sdpi-textfield 
+            setting="atemIp" 
+            placeholder="192.168.10.240">
+        </sdpi-textfield>
+    </sdpi-item>
+
+    <sdpi-item label="Mix Effect">
+        <sdpi-select 
+            setting="mixEffect" 
+            default="0"
+            datasource="getMixEffects"
+            loading="Loading Mix Effects...">
+            <option value="0">ME 1</option>
+        </sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item label="Transition Style">
+        <sdpi-select 
+            setting="transitionStyle" 
+            default="0">
+            <option value="0">Mix</option>
+            <option value="1">Dip</option>
+            <option value="2">Wipe</option>
+            <option value="3">DVE</option>
+            <option value="4">Stinger</option>
+        </sdpi-select>
+    </sdpi-item>
+</body>
+
+</html>

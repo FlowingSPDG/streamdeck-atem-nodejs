@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          if [ ! -f "dev.flowingspdg.atemnodejs.sdPlugin/bin/plugin.js" ]; then
+            echo "Build output not found!"
+            exit 1
+          fi
+          echo "Build successful!"
+
+      - name: Pack plugin
+        run: |
+          npx @elgato/cli pack dev.flowingspdg.atemnodejs.sdPlugin
+
+      - name: Get tag version
+        id: tag_version
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          # Validate version format (v0.0.0.0 or similar)
+          if [[ ! $TAG_NAME =~ ^v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Tag format must be v*.*.*.* (e.g., v0.0.0.0)"
+            exit 1
+          fi
+          echo "version=${TAG_NAME#v}" >> $GITHUB_OUTPUT
+          echo "tag=${TAG_NAME}" >> $GITHUB_OUTPUT
+          echo "Tag version: ${TAG_NAME}"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dev.flowingspdg.atemnodejs.streamDeckPlugin
+          name: Release ${{ steps.tag_version.outputs.tag }}
+          body: |
+            ## Release ${{ steps.tag_version.outputs.tag }}
+            
+            Automated release from tag ${{ steps.tag_version.outputs.tag }}
+            
+            ### Installation
+            1. Download the `.streamDeckPlugin` file
+            2. Double-click to install in Stream Deck
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

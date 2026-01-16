@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <title>ATEM Recording & Streaming Settings</title>
+    <meta charset="utf-8" />
+    <script src="https://sdpi-components.dev/releases/v4/sdpi-components.js"></script>
+</head>
+
+<body>
+    <!--
+        Learn more about property inspector components at https://sdpi-components.dev/docs/components
+    -->
+    
+    <!-- ATEM Connection Settings -->
+    <sdpi-item label="Connected ATEMs">
+        <sdpi-select 
+            setting="atemIp" 
+            datasource="getConnectedATEMs"
+            loading="Loading connected ATEMs..."
+            placeholder="Select or enter manually below">
+        </sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item label="Or Enter IP Manually">
+        <sdpi-textfield 
+            setting="atemIp" 
+            placeholder="192.168.10.240">
+        </sdpi-textfield>
+    </sdpi-item>
+
+    <sdpi-item label="Mode">
+        <sdpi-select 
+            setting="mode" 
+            default="recording">
+            <option value="recording">Recording</option>
+            <option value="streaming">Streaming</option>
+        </sdpi-select>
+    </sdpi-item>
+
+    <sdpi-item label="Action">
+        <sdpi-select 
+            setting="action" 
+            default="toggle">
+            <option value="start">Start</option>
+            <option value="stop">Stop</option>
+            <option value="toggle">Toggle</option>
+        </sdpi-select>
+    </sdpi-item>
+</body>
+
+</html>
